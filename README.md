@@ -1,79 +1,81 @@
+🇮🇩 Bahasa Indonesia | [🇬🇧 English](README.en.md)
+
 # ESP32-C6 OTA Weather Station
 
 ![ESP32-C6](https://img.shields.io/badge/ESP32-C6-blue)
 ![Version](https://img.shields.io/badge/version-1.1.0-green)
 ![License](https://img.shields.io/badge/license-MIT-orange)
 
-A complete IoT weather station with OTA firmware updates, WiFi provisioning, and real-time weather monitoring for Jakarta, Indonesia.
+Stasiun cuaca IoT lengkap dengan update firmware OTA, provisioning WiFi, dan pemantauan cuaca real-time untuk Jakarta, Indonesia.
 
 ![Dashboard Preview](docs/images/dashboard-preview.png)
 ![Dashboard OTA](docs/images/dashboard-ota.png)
 ---
 
-## 🌟 Features
+## 🌟 Fitur
 
-### Core Functionality
-- 🌐 **WiFi Provisioning** - Easy WiFi configuration via web interface (AP mode)
-- 🔄 **OTA Firmware Updates** - Secure over-the-air updates with dual partition system
-- ⏰ **Real-Time Clock** - NTP synchronization with WIB (GMT+7) timezone
-- 🌦️ **Weather Monitoring** - Live temperature & humidity data from Open-Meteo API
-- 💡 **LED Indicators** - Visual status feedback for system operations
-- 📱 **Responsive Web UI** - Beautiful gradient design, mobile-friendly
+### Fungsi Utama
+- 🌐 **Provisioning WiFi** - Konfigurasi WiFi mudah lewat antarmuka web (mode AP)
+- 🔄 **Update Firmware OTA** - Update over-the-air yang aman dengan sistem dual partition
+- ⏰ **Real-Time Clock** - Sinkronisasi NTP dengan zona waktu WIB (GMT+7)
+- 🌦️ **Pemantauan Cuaca** - Data suhu & kelembapan langsung dari Open-Meteo API
+- 💡 **Indikator LED** - Umpan balik visual untuk status operasi sistem
+- 📱 **Web UI Responsif** - Desain gradien yang menarik dan ramah perangkat mobile
 
-### Technical Features
-- **Dual Partition OTA** - Safe firmware updates with automatic rollback
-- **Factory Recovery** - Fallback partition for system recovery
-- **APSTA Mode** - Simultaneous AP and Station mode operation
-- **HTTPS Support** - Secure API communication with certificate validation
-- **JSON REST APIs** - Easy integration with external systems
-
----
-
-## 📋 Table of Contents
-
-- [Hardware Requirements](#hardware-requirements)
-- [Software Requirements](#software-requirements)
-- [Quick Start](#quick-start)
-- [Project Structure](#project-structure)
-- [Web Interface](#web-interface)
-- [API Documentation](#api-documentation)
-- [LED Indicators](#led-indicators)
-- [Configuration](#configuration)
-- [OTA Update Process](#ota-update-process)
-- [Troubleshooting](#troubleshooting)
-- [Architecture](#architecture)
-- [Contributing](#contributing)
-- [License](#license)
+### Fitur Teknis
+- **Dual Partition OTA** - Update firmware yang aman dengan rollback otomatis
+- **Factory Recovery** - Partisi cadangan untuk pemulihan sistem
+- **Mode APSTA** - Mode AP dan Station berjalan bersamaan
+- **Dukungan HTTPS** - Komunikasi API aman dengan validasi sertifikat
+- **JSON REST API** - Mudah diintegrasikan dengan sistem eksternal
 
 ---
 
-## 🔧 Hardware Requirements
+## 📋 Daftar Isi
 
-- **ESP32-C6 Development Board** (any variant with 4MB flash)
-- **3x LEDs** (any color, with appropriate resistors)
-- **Breadboard & Jumper Wires**
-- **USB-C Cable** for programming
+- [Kebutuhan Hardware](#kebutuhan-hardware)
+- [Kebutuhan Software](#kebutuhan-software)
+- [Mulai Cepat](#mulai-cepat)
+- [Struktur Project](#struktur-project)
+- [Antarmuka Web](#antarmuka-web)
+- [Dokumentasi API](#dokumentasi-api)
+- [Indikator LED](#indikator-led)
+- [Konfigurasi](#konfigurasi)
+- [Proses Update OTA](#proses-update-ota)
+- [Pemecahan Masalah](#pemecahan-masalah)
+- [Arsitektur](#arsitektur)
+- [Kontribusi](#kontribusi)
+- [Lisensi](#lisensi)
 
-### Wiring Diagram
+---
+
+## 🔧 Kebutuhan Hardware
+
+- **Board ESP32-C6 Development** (varian apa pun dengan flash 4MB)
+- **3x LED** (warna bebas, dengan resistor yang sesuai)
+- **Breadboard & Kabel Jumper**
+- **Kabel USB-C** untuk pemrograman
+
+### Diagram Wiring
 ```
 ESP32-C6          LED
-GPIO 4  ────────  System Status LED (WiFi/OTA/Recovery)
-GPIO 5  ────────  Weather Fetch LED
-GPIO 6  ────────  AP Mode LED
-GND     ────────  LED Common Cathode (via resistors)
+GPIO 4  ────────  LED Status Sistem (WiFi/OTA/Recovery)
+GPIO 5  ────────  LED Fetch Cuaca
+GPIO 6  ────────  LED Mode AP
+GND     ────────  Common Cathode LED (lewat resistor)
 ```
 
-**Recommended resistors:** 220Ω - 330Ω per LED
+**Resistor yang disarankan:** 220Ω - 330Ω per LED
 
 ---
 
-## 💻 Software Requirements
+## 💻 Kebutuhan Software
 
-- **ESP-IDF v5.4+** ([Installation Guide](https://docs.espressif.com/projects/esp-idf/en/latest/esp32c6/get-started/))
+- **ESP-IDF v5.4+** ([Panduan Instalasi](https://docs.espressif.com/projects/esp-idf/en/latest/esp32c6/get-started/))
 - **Python 3.8+**
 - **Git**
 
-### ESP-IDF Setup
+### Setup ESP-IDF
 ```bash
 # Install ESP-IDF
 git clone -b v5.4 --recursive https://github.com/espressif/esp-idf.git
@@ -81,13 +83,13 @@ cd esp-idf
 ./install.sh esp32c6
 python -m venv venv
 .\venv\Scripts\activate
-# Activate environment
+# Aktifkan environment
 . ./export.sh
 ```
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Mulai Cepat
 
 ### 1. Clone Repository
 ```bash
@@ -95,12 +97,12 @@ git clone https://github.com/yourusername/esp32c6-ota-weather.git
 cd esp32c6-ota-weather
 ```
 
-### 2. Configure Project
+### 2. Konfigurasi Project
 ```bash
 # Set target
 idf.py set-target esp32c6
 
-# (Optional) Configure menuconfig
+# (Opsional) Konfigurasi menuconfig
 idf.py menuconfig
 ```
 
@@ -109,66 +111,66 @@ idf.py menuconfig
 # Build project
 idf.py build
 
-#clean up
+# bersihkan build
 idf.py fullclean
 
-# Flash to device
+# Flash ke perangkat
  python -m esptool --chip esp32c6 -b 460800 --before default_reset --after hard_reset write_flash --flash_mode dio --flash_size 4MB --flash_freq 80m 0x0 build/bootloader/bootloader.bin 0x8000 build/partition_table/partition-table.bin 0x10000 build/esp32c6-ota-weather.bin
 
-#erase memory
+# hapus memori flash
 python -m esptool --chip esp32c6 --port COM5 erase_flash
 
-#monitor
+# monitor
 python -m serial.tools.miniterm "COM5" 115200
 ```
 
-### 4. First Time Setup
+### 4. Setup Pertama Kali
 
-1. **Connect to AP:**
+1. **Hubungkan ke AP:**
    - SSID: `ESP32-C6-Setup`
    - Password: `12345678`
 
-2. **Open Browser:**
-   - Navigate to: `http://192.168.4.1`
+2. **Buka Browser:**
+   - Kunjungi: `http://192.168.4.1`
 
-3. **Configure WiFi:**
-   - Enter your WiFi credentials
-   - Click "Connect to WiFi"
-   - Device will restart and connect
+3. **Konfigurasi WiFi:**
+   - Masukkan kredensial WiFi kamu
+   - Klik "Connect to WiFi"
+   - Perangkat akan restart dan terhubung
 
-4. **Access Dashboard:**
-   - Find device IP in serial monitor
-   - Open `http://[DEVICE-IP]/` in browser
+4. **Akses Dashboard:**
+   - Cari IP perangkat di serial monitor
+   - Buka `http://[IP-PERANGKAT]/` di browser
 
 ---
 
-## 📁 Project Structure
+## 📁 Struktur Project
 ```
 esp32c6-ota-weather/
-├── CMakeLists.txt              # Root CMake configuration
-├── sdkconfig.defaults          # Default project configuration
-├── partitions.csv              # Partition table (Factory + OTA)
-├── README.md                   # This file
+├── CMakeLists.txt              # Konfigurasi CMake root
+├── sdkconfig.defaults          # Konfigurasi default project
+├── partitions.csv              # Tabel partisi (Factory + OTA)
+├── README.md                   # File ini
 ├── docs/
-│   └── architecture.md         # Architecture documentation
+│   └── architecture.md         # Dokumentasi arsitektur
 ├── components/
-│   ├── led_indicator/          # LED control component
+│   ├── led_indicator/          # Komponen kontrol LED
 │   │   ├── led_indicator.c
 │   │   ├── include/led_indicator.h
 │   │   └── CMakeLists.txt
-│   ├── wifi_manager/           # WiFi connection management
+│   ├── wifi_manager/           # Manajemen koneksi WiFi
 │   │   ├── wifi_manager.c
 │   │   ├── include/wifi_manager.h
 │   │   └── CMakeLists.txt
-│   ├── sntp_sync/              # NTP time synchronization
+│   ├── sntp_sync/              # Sinkronisasi waktu NTP
 │   │   ├── sntp_sync.c
 │   │   ├── include/sntp_sync.h
 │   │   └── CMakeLists.txt
-│   ├── ota_manager/            # OTA update logic
+│   ├── ota_manager/            # Logika update OTA
 │   │   ├── ota_manager.c
 │   │   ├── include/ota_manager.h
 │   │   └── CMakeLists.txt
-│   ├── weather_client/         # Weather API client
+│   ├── weather_client/         # Klien API cuaca
 │   │   ├── weather_client.c
 │   │   ├── include/weather_client.h
 │   │   └── CMakeLists.txt
@@ -177,53 +179,53 @@ esp32c6-ota-weather/
 │       ├── include/web_server.h
 │       └── CMakeLists.txt
 └── main/
-    ├── main.c                  # Main application
+    ├── main.c                  # Aplikasi utama
     └── CMakeLists.txt
 ```
 
 ---
 
-## 🌐 Web Interface
+## 🌐 Antarmuka Web
 
-### Main Dashboard
+### Dashboard Utama
 
-Access at: `http://[DEVICE-IP]/`
+Akses di: `http://[IP-PERANGKAT]/`
 
-**Features:**
-- ✅ Current time display (WIB timezone)
-- ✅ Weather information (Temperature & Humidity)
-- ✅ WiFi connection status
-- ✅ Network information (IP, Gateway)
-- ✅ WiFi reconfiguration form
-- ✅ Link to OTA update page
+**Fitur:**
+- ✅ Tampilan waktu saat ini (zona waktu WIB)
+- ✅ Informasi cuaca (Suhu & Kelembapan)
+- ✅ Status koneksi WiFi
+- ✅ Informasi jaringan (IP, Gateway)
+- ✅ Form konfigurasi ulang WiFi
+- ✅ Tautan ke halaman update OTA
 
-### OTA Update Page
+### Halaman Update OTA
 
-Access at: `http://[DEVICE-IP]/ota`
+Akses di: `http://[IP-PERANGKAT]/ota`
 
-**Features:**
-- 📤 Drag & drop firmware upload
-- 📊 Real-time upload progress
-- ℹ️ Current firmware version & partition info
-- ⚠️ Safety warnings
+**Fitur:**
+- 📤 Upload firmware dengan drag & drop
+- 📊 Progres upload real-time
+- ℹ️ Versi firmware & informasi partisi saat ini
+- ⚠️ Peringatan keamanan
 
 ---
 
-## 🔌 API Documentation
+## 🔌 Dokumentasi API
 
 ### Base URL
 ```
-http://[DEVICE-IP]/api
+http://[IP-PERANGKAT]/api
 ```
 
-### Endpoints
+### Endpoint
 
-#### 1. Get System Status
+#### 1. Ambil Status Sistem
 ```http
 GET /api/status
 ```
 
-**Response:**
+**Respons:**
 ```json
 {
   "connected": true,
@@ -235,12 +237,12 @@ GET /api/status
 }
 ```
 
-#### 2. Get Current Time
+#### 2. Ambil Waktu Saat Ini
 ```http
 GET /api/time
 ```
 
-**Response:**
+**Respons:**
 ```json
 {
   "synced": true,
@@ -255,12 +257,12 @@ GET /api/time
 }
 ```
 
-#### 3. Get Weather Data
+#### 3. Ambil Data Cuaca
 ```http
 GET /api/weather
 ```
 
-**Response:**
+**Respons:**
 ```json
 {
   "valid": true,
@@ -271,7 +273,7 @@ GET /api/weather
 }
 ```
 
-#### 4. Save WiFi Configuration
+#### 4. Simpan Konfigurasi WiFi
 ```http
 POST /api/wifi/save
 Content-Type: application/json
@@ -282,19 +284,19 @@ Content-Type: application/json
 }
 ```
 
-**Response:**
+**Respons:**
 ```json
 {
   "success": true
 }
 ```
 
-#### 5. Get OTA Info
+#### 5. Ambil Info OTA
 ```http
 GET /api/ota/info
 ```
 
-**Response:**
+**Respons:**
 ```json
 {
   "version": "1.0.0",
@@ -308,10 +310,10 @@ GET /api/ota/info
 POST /api/ota/update
 Content-Type: multipart/form-data
 
-file: [binary .bin file]
+file: [file .bin biner]
 ```
 
-**Response:**
+**Respons:**
 ```json
 {
   "success": true
@@ -320,64 +322,64 @@ file: [binary .bin file]
 
 ---
 
-## 💡 LED Indicators
+## 💡 Indikator LED
 
-### GPIO 4 - System Status LED
+### GPIO 4 - LED Status Sistem
 
-| Pattern | Meaning |
+| Pola | Arti |
 |---------|---------|
-| **Solid ON** | WiFi connected (normal operation) |
-| **Blink 200ms** | OTA update in progress |
-| **Blink 1000ms** | Recovery mode / System error |
-| **OFF** | WiFi disconnected |
+| **Menyala terus** | WiFi terhubung (operasi normal) |
+| **Kedip 200ms** | Update OTA sedang berjalan |
+| **Kedip 1000ms** | Mode recovery / Error sistem |
+| **Mati** | WiFi terputus |
 
-### GPIO 5 - Weather Fetch LED
+### GPIO 5 - LED Fetch Cuaca
 
-| Pattern | Meaning |
+| Pola | Arti |
 |---------|---------|
-| **Blink** | Fetching weather data from API |
-| **ON (2 seconds)** | Fetch completed successfully |
-| **OFF** | Idle |
+| **Kedip** | Mengambil data cuaca dari API |
+| **Menyala (2 detik)** | Fetch berhasil diselesaikan |
+| **Mati** | Idle |
 
-### GPIO 6 - AP Mode LED
+### GPIO 6 - LED Mode AP
 
-| Pattern | Meaning |
+| Pola | Arti |
 |---------|---------|
-| **Solid ON** | AP mode active (provisioning available) |
-| **OFF** | STA mode only |
+| **Menyala terus** | Mode AP aktif (provisioning tersedia) |
+| **Mati** | Hanya mode STA |
 
 ---
 
-## ⚙️ Configuration
+## ⚙️ Konfigurasi
 
-### WiFi Settings
+### Pengaturan WiFi
 
-Default AP credentials (change in `wifi_manager.h`):
+Kredensial AP default (ubah di `wifi_manager.h`):
 ```c
 #define WIFI_AP_SSID        "ESP32-C6-Setup"
 #define WIFI_AP_PASSWORD    "12345678"
 #define WIFI_AP_IP          "192.168.4.1"
 ```
 
-### Weather Settings
+### Pengaturan Cuaca
 
-Location (change in `weather_client.h`):
+Lokasi (ubah di `weather_client.h`):
 ```c
 #define WEATHER_LATITUDE    "-6.1818"
 #define WEATHER_LONGITUDE   "106.8223"
-#define WEATHER_FETCH_INTERVAL_MS   (3600000)  // 1 hour
+#define WEATHER_FETCH_INTERVAL_MS   (3600000)  // 1 jam
 ```
 
-### Firmware Version
+### Versi Firmware
 
-Update in `ota_manager.h`:
+Ubah di `ota_manager.h`:
 ```c
 #define FIRMWARE_VERSION "1.0.0"
 ```
 
-### Partition Table
+### Tabel Partisi
 
-Edit `partitions.csv` for custom partition sizes:
+Edit `partitions.csv` untuk ukuran partisi kustom:
 ```csv
 factory,  app,  factory, 0x10000, 0x150000,  # 1.31 MB
 ota_0,    app,  ota_0,   ,        0x150000,  # 1.31 MB
@@ -386,104 +388,104 @@ ota_1,    app,  ota_1,   ,        0x150000,  # 1.31 MB
 
 ---
 
-## 🔄 OTA Update Process
+## 🔄 Proses Update OTA
 
-### Method 1: Via Web Interface (Recommended)
+### Metode 1: Lewat Antarmuka Web (Direkomendasikan)
 
-1. Build new firmware:
+1. Build firmware baru:
 ```bash
    idf.py build
 ```
 
-2. Locate binary:
+2. Cari file biner:
 ```
    build/esp32c6-ota-weather.bin
 ```
 
-3. Open OTA page:
+3. Buka halaman OTA:
 ```
-   http://[DEVICE-IP]/ota
+   http://[IP-PERANGKAT]/ota
 ```
 
-4. Upload `.bin` file
+4. Upload file `.bin`
 
-5. Wait for upload & verification
+5. Tunggu upload & verifikasi selesai
 
-6. Device reboots automatically
+6. Perangkat reboot otomatis
 
-### Method 2: Via Command Line
+### Metode 2: Lewat Command Line
 ```bash
-# Using curl
-curl -X POST http://[DEVICE-IP]/api/ota/update \
+# Memakai curl
+curl -X POST http://[IP-PERANGKAT]/api/ota/update \
   -F "file=@build/esp32c6-ota-weather.bin"
 ```
 
-### Rollback Protection
+### Proteksi Rollback
 
-- Dual partition system (ota_0 ↔ ota_1)
-- Automatic rollback on boot failure
-- Factory partition as last resort recovery
-
----
-
-## 🐛 Troubleshooting
-
-### Device not showing AP mode
-
-**Solution:**
-- Press reset button
-- Check LED 6 (should be ON in AP mode)
-- Look for `ESP32-C6-Setup` in WiFi networks
-
-### Cannot connect to WiFi
-
-**Solution:**
-- Check SSID & password are correct
-- Ensure 2.4GHz network (ESP32 doesn't support 5GHz)
-- Check router allows new devices
-- View serial logs: `idf.py monitor`
-
-### Weather data shows "unavailable"
-
-**Solution:**
-- Check internet connection
-- Verify time is synchronized (NTP)
-- Check API endpoint in logs
-- Certificate bundle may need updating
-
-### OTA update fails
-
-**Solution:**
-- Ensure `.bin` file is correct firmware
-- Check file size < partition size (1.31 MB)
-- Verify WiFi connection is stable
-- Check serial logs for error details
-
-### Time not synchronizing
-
-**Solution:**
-- Check WiFi internet access
-- Verify NTP server is reachable
-- Wait up to 30 seconds for first sync
-- Check firewall allows NTP (UDP port 123)
+- Sistem dual partition (ota_0 ↔ ota_1)
+- Rollback otomatis jika boot gagal
+- Partisi factory sebagai pemulihan terakhir
 
 ---
 
-## 🏗️ Architecture
+## 🐛 Pemecahan Masalah
 
-See detailed architecture documentation: [docs/architecture.md](docs/architecture.md)
+### Perangkat tidak menampilkan mode AP
 
-**High-level overview:**
+**Solusi:**
+- Tekan tombol reset
+- Periksa LED 6 (harus menyala saat mode AP)
+- Cari `ESP32-C6-Setup` di daftar jaringan WiFi
+
+### Tidak bisa terhubung ke WiFi
+
+**Solusi:**
+- Periksa SSID & password sudah benar
+- Pastikan jaringan 2.4GHz (ESP32 tidak mendukung 5GHz)
+- Periksa router mengizinkan perangkat baru
+- Lihat log serial: `idf.py monitor`
+
+### Data cuaca menampilkan "unavailable"
+
+**Solusi:**
+- Periksa koneksi internet
+- Pastikan waktu sudah tersinkronisasi (NTP)
+- Periksa endpoint API di log
+- Certificate bundle mungkin perlu diperbarui
+
+### Update OTA gagal
+
+**Solusi:**
+- Pastikan file `.bin` adalah firmware yang benar
+- Periksa ukuran file < ukuran partisi (1.31 MB)
+- Pastikan koneksi WiFi stabil
+- Periksa log serial untuk detail error
+
+### Waktu tidak tersinkronisasi
+
+**Solusi:**
+- Periksa akses internet WiFi
+- Pastikan server NTP dapat dijangkau
+- Tunggu hingga 30 detik untuk sinkronisasi pertama
+- Periksa firewall mengizinkan NTP (UDP port 123)
+
+---
+
+## 🏗️ Arsitektur
+
+Lihat dokumentasi arsitektur lengkap: [docs/architecture.md](docs/architecture.md)
+
+**Gambaran umum:**
 ```
 ┌─────────────────────────────────────────────────────┐
 │                   Web Browser                        │
-│          (Dashboard & OTA Interface)                 │
+│          (Dashboard & Antarmuka OTA)                 │
 └──────────────────┬──────────────────────────────────┘
                    │ HTTP/HTTPS
                    ↓
 ┌─────────────────────────────────────────────────────┐
-│                 Web Server Component                 │
-│  (HTML Rendering, REST API Endpoints, Handlers)     │
+│                Komponen Web Server                   │
+│  (Rendering HTML, Endpoint REST API, Handler)       │
 └──┬────────┬─────────┬──────────┬────────────────┬───┘
    │        │         │          │                │
    ↓        ↓         ↓          ↓                ↓
@@ -495,31 +497,31 @@ See detailed architecture documentation: [docs/architecture.md](docs/architectur
 
 ---
 
-## 🤝 Contributing
+## 🤝 Kontribusi
 
-Contributions are welcome! Please follow these steps:
+Kontribusi sangat diterima! Ikuti langkah berikut:
 
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+1. Fork repository
+2. Buat branch fitur (`git checkout -b feature/AmazingFeature`)
+3. Commit perubahan (`git commit -m 'Add some AmazingFeature'`)
+4. Push ke branch (`git push origin feature/AmazingFeature`)
+5. Buka Pull Request
 
 ---
 
-## 🙏 Acknowledgments
+## 📝 Lisensi
 
-- **Espressif Systems** - ESP-IDF framework
-- **Open-Meteo** - Free weather API
-- **Community contributors** - Bug reports and feature requests
+Project ini dilisensikan di bawah MIT License - lihat file [LICENSE](LICENSE) untuk detailnya.
+
+---
+
+## 🙏 Ucapan Terima Kasih
+
+- **Espressif Systems** - Framework ESP-IDF
+- **Open-Meteo** - API cuaca gratis
+- **Kontributor komunitas** - Laporan bug dan permintaan fitur
 
 ---
 
 
-**Made with ❤️ using ESP32-C6 by MJ Mokhtar**
+**Dibuat dengan ❤️ menggunakan ESP32-C6 oleh MJ Mokhtar**
